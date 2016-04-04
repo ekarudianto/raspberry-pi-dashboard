@@ -8,6 +8,7 @@ var clean = require('gulp-clean');
 var cssmin = require('gulp-cssmin');
 var uglify = require('gulp-uglify');
 var rename = require('gulp-rename');
+var connect = require('gulp-connect');
 
 var config = {
     app: 'app',
@@ -75,3 +76,19 @@ gulp.task('clean:dist', function () {
  */
 
 gulp.task('build', ['copy-assets:dist', 'copy-base-files:dist', 'minify-css:dist', 'uglify-js:dist']);
+
+gulp.task('connect:dist', ['build'], function () {
+    connect.server({
+        root: 'dist',
+        port: 9005,
+        livereload: true
+    });
+});
+
+gulp.task('server:dist', ['build', 'connect:dist'], function () {
+    gulp.watch('dist/**', function () {
+        console.log("change");
+        return gulp.src('dist/**')
+            .pipe(connect.reload());
+    });
+});
