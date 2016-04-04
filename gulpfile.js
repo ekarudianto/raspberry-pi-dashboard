@@ -71,24 +71,30 @@ gulp.task('clean:dist', function () {
         .pipe(clean());
 });
 
-/**
- * build task to build all of the works from apps folder
- */
-
-gulp.task('build', ['copy-assets:dist', 'copy-base-files:dist', 'minify-css:dist', 'uglify-js:dist']);
-
 gulp.task('connect:dist', ['build'], function () {
-    connect.server({
+    return connect.server({
         root: 'dist',
         port: 9005,
         livereload: true
     });
 });
 
-gulp.task('server:dist', ['build', 'connect:dist'], function () {
-    gulp.watch('dist/**', function () {
-        console.log("change");
-        return gulp.src('dist/**')
-            .pipe(connect.reload());
+gulp.task('watch:dist', ['connect:dist'], function () {
+    return gulp.watch([
+        'dist/**'
+    ], function (ev) {
+        gulp.src(['./dist/**'])
+            .pipe(connect.reload())
+            .on('change', function (event) {
+                console.info(event.path + ' has changed');
+            });
     });
 });
+
+/**
+ * build task to build all of the works from apps folder
+ */
+
+gulp.task('build', ['copy-assets:dist', 'copy-base-files:dist', 'minify-css:dist', 'uglify-js:dist']);
+
+gulp.task('server:dist', ['build', 'connect:dist', 'watch:dist']);
