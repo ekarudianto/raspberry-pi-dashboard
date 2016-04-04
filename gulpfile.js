@@ -116,7 +116,7 @@ gulp.task('connect:dist', ['build'], function () {
 });
 
 gulp.task('watch', ['connect'], function () {
-    return gulp.watch([
+    gulp.watch([
             'app/base/*.jade',
             'app/assets/css/*.css',
             'app/assets/js/*.js'
