@@ -9,6 +9,9 @@ var cssmin = require('gulp-cssmin');
 var uglify = require('gulp-uglify');
 var rename = require('gulp-rename');
 var connect = require('gulp-connect');
+var mountFolder = function (connect, dir) {
+    return connect.static(require('path').resolve(dir));
+};
 
 var config = {
     app: 'app',
@@ -46,6 +49,16 @@ gulp.task('uglify-js:dist', ['copy-assets:dist'], function () {
         .pipe(gulp.dest(config.dist + '/assets/js/'));
 });
 
+gulp.task('copy-base-files', ['clean'], function () {
+    return gulp.src(config.app + '/base/*.jade')
+        .pipe(jade({
+            locals: {},
+            pretty: false,
+            compileDebug: true
+        }))
+        .pipe(gulp.dest('.tmp'));
+});
+
 /**
  * copy compiled jade files to distribution folder
  */
@@ -62,6 +75,11 @@ gulp.task('copy-base-files:dist', ['clean:dist'], function () {
         .pipe(gulp.dest(config.dist));
 });
 
+gulp.task('clean', function () {
+    return gulp.src('.tmp', {read: false})
+        .pipe(clean());
+});
+
 /**
  * clean distribution folder files
  */
@@ -69,6 +87,20 @@ gulp.task('copy-base-files:dist', ['clean:dist'], function () {
 gulp.task('clean:dist', function () {
     return gulp.src([config.dist + '/*', config.dist + '/.*'], {read: false})
         .pipe(clean());
+});
+
+gulp.task('connect', ['copy-base-files'], function () {
+    return connect.server({
+        root: 'app',
+        port: 9010,
+        livereload: true,
+        middleware: function (connect, opt) {
+            return [
+                mountFolder(connect, '.tmp'),
+                mountFolder(connect, config.app)
+            ];
+        }
+    })
 });
 
 /**
@@ -81,6 +113,23 @@ gulp.task('connect:dist', ['build'], function () {
         port: 9050,
         livereload: true
     });
+});
+
+gulp.task('watch', ['connect'], function () {
+    return gulp.watch([
+            'app/base/*.jade',
+            'app/assets/css/*.css',
+            'app/assets/js/*.js'
+        ], ['copy-base-files'])
+        .on('change', function (event) {
+            console.log(event.path + ' has changed, reloading...');
+            gulp.src([
+                    './app/base/*.jade',
+                    './app/assets/css/*.css',
+                    './app/assets/js/*.js'
+                ])
+                .pipe(connect.reload());
+        });
 });
 
 /**
@@ -105,6 +154,8 @@ gulp.task('watch:dist', ['connect:dist'], function () {
  */
 
 gulp.task('build', ['copy-assets:dist', 'copy-base-files:dist', 'minify-css:dist', 'uglify-js:dist']);
+
+gulp.task('server', ['clean', 'connect', 'watch']);
 
 /**
  * creating distribution web server
