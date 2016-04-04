@@ -18,5 +18,6 @@
   "bugs": {
     "url": "https://github.com/ekarudianto/html-starter-template/issues"
   },
-  "homepage": "https://github.com/ekarudianto/html-starter-template#readme"
+  "homepage": "https://github.com/ekarudianto/html-starter-template#readme",
+  "dependencies": {}
 }
