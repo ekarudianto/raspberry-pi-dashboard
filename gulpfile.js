@@ -5,30 +5,73 @@
 var gulp = require('gulp');
 var jade = require('gulp-jade');
 var clean = require('gulp-clean');
+var cssmin = require('gulp-cssmin');
+var uglify = require('gulp-uglify');
+var rename = require('gulp-rename');
 
-gulp.task('copy-assets', function () {
+var config = {
+    app: 'app',
+    dist: 'dist'
+};
 
-    gulp.src('app/assets/**')
-        .pipe(gulp.dest('dist/assets/'));
+/**
+ * copy assets file to distribution folder
+ */
 
+gulp.task('copy-assets:dist', ['clean:dist'], function () {
+    return gulp.src(config.app + '/assets/**')
+        .pipe(gulp.dest(config.dist + '/assets'));
 });
 
-gulp.task('copy-base-files', function () {
+/**
+ * minify style.css and copy the minified file to distribution folder
+ */
 
+gulp.task('minify-css:dist', ['copy-assets:dist'], function () {
+    return gulp.src(config.app + '/assets/css/style.css')
+        .pipe(cssmin())
+        .pipe(rename({suffix: '.min'}))
+        .pipe(gulp.dest(config.dist + '/assets/css/'));
+});
+
+/**
+ * uglify main.js and copy the minified file to distribution folder
+ */
+
+gulp.task('uglify-js:dist', ['copy-assets:dist'], function () {
+    return gulp.src(config.app + '/assets/js/main.js')
+        .pipe(uglify())
+        .pipe(rename({suffix: '.min'}))
+        .pipe(gulp.dest(config.dist + '/assets/js/'));
+});
+
+/**
+ * copy compiled jade files to distribution folder
+ */
+
+gulp.task('copy-base-files:dist', ['clean:dist'], function () {
     var YOUR_LOCALS = {};
 
-    gulp.src('app/base/*.jade')
+    return gulp.src(config.app + '/base/*.jade')
         .pipe(jade({
             locals: YOUR_LOCALS,
-            pretty: true
+            pretty: true,
+            compileDebug: true
         }))
-        .pipe(gulp.dest('dist/'));
-
+        .pipe(gulp.dest(config.dist));
 });
 
-gulp.task('clean-dist-folder', function () {
-    return gulp.src('dist/*', {read: false})
+/**
+ * clean distribution folder files
+ */
+
+gulp.task('clean:dist', function () {
+    return gulp.src([config.dist + '/*', config.dist + '/.*'], {read: false})
         .pipe(clean());
 });
 
-gulp.task('build', ['clean-dist-folder', 'copy-assets', 'copy-base-files']);
+/**
+ * build task to build all of the works from apps folder
+ */
+
+gulp.task('build', ['copy-assets:dist', 'copy-base-files:dist', 'minify-css:dist', 'uglify-js:dist']);
