@@ -19,5 +19,10 @@
     "url": "https://github.com/ekarudianto/html-starter-template/issues"
   },
   "homepage": "https://github.com/ekarudianto/html-starter-template#readme",
-  "dependencies": {}
+  "dependencies": {},
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-clean": "^0.3.2",
+    "gulp-jade": "^1.1.0"
+  }
 }
