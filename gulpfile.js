@@ -71,24 +71,33 @@ gulp.task('clean:dist', function () {
         .pipe(clean());
 });
 
+/**
+ * build a web server to handle distribution folder
+ */
+
 gulp.task('connect:dist', ['build'], function () {
     return connect.server({
         root: 'dist',
-        port: 9005,
+        port: 9050,
         livereload: true
     });
 });
 
+/**
+ * distribution folder watcher, used to watch all of the changes on distribution folder when running
+ *
+ * - gulp server:dist
+ */
+
 gulp.task('watch:dist', ['connect:dist'], function () {
     return gulp.watch([
-        'dist/**'
-    ], function (ev) {
-        gulp.src(['./dist/**'])
-            .pipe(connect.reload())
-            .on('change', function (event) {
-                console.info(event.path + ' has changed');
-            });
-    });
+            'dist/**'
+        ])
+        .on('change', function (event) {
+            console.log(event.path + ' has changed, reloading...');
+            gulp.src(['./dist/**'])
+                .pipe(connect.reload());
+        });
 });
 
 /**
@@ -96,5 +105,9 @@ gulp.task('watch:dist', ['connect:dist'], function () {
  */
 
 gulp.task('build', ['copy-assets:dist', 'copy-base-files:dist', 'minify-css:dist', 'uglify-js:dist']);
+
+/**
+ * creating distribution web server
+ */
 
 gulp.task('server:dist', ['build', 'connect:dist', 'watch:dist']);
