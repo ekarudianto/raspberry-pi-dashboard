@@ -1,0 +1,25 @@
+{
+  "name": "html-starter-template",
+  "description": "HTML starter template",
+  "authors": [
+    "Eka Rudianto"
+  ],
+  "license": "ISC",
+  "keywords": [
+    "html",
+    "starter",
+    "template",
+    "boilerplate"
+  ],
+  "homepage": "https://github.com/ekarudianto/html-starter-template",
+  "moduleType": [
+    "globals"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

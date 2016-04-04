@@ -1,0 +1,22 @@
+{
+  "name": "html-starter-template",
+  "version": "0.0.1",
+  "description": "HTML starter template",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ekarudianto/html-starter-template.git"
+  },
+  "keywords": [
+    "html",
+    "starter",
+    "template",
+    "boilerplate"
+  ],
+  "author": "Eka Rudianto",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ekarudianto/html-starter-template/issues"
+  },
+  "homepage": "https://github.com/ekarudianto/html-starter-template#readme"
+}
