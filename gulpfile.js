@@ -2,29 +2,50 @@
  * Created by Eka Rudianto on 04/04/16.
  */
 
-var gulp = require('gulp');
-var jade = require('gulp-jade');
-var clean = require('gulp-clean');
-var cssmin = require('gulp-cssmin');
-var uglify = require('gulp-uglify');
-var rename = require('gulp-rename');
-var connect = require('gulp-connect');
-var mountFolder = function (connect, dir) {
-    return connect.static(require('path').resolve(dir));
-};
+var gulp = require('gulp'),
+    jade = require('gulp-jade'),
+    clean = require('gulp-clean'),
+    cssmin = require('gulp-cssmin'),
+    uglify = require('gulp-uglify'),
+    rename = require('gulp-rename'),
+    connect = require('gulp-connect'),
+    merge = require('merge-stream'),
+    gutil = require('gulp-util'),
 
-var config = {
-    app: 'app',
-    dist: 'dist'
-};
+    LIVERELOAD_PORT = 35730,
+    mountFolder = function (connect, dir) {
+        return connect.static(require('path').resolve(dir));
+    },
+
+    config = {
+        app: 'app',
+        dist: 'dist'
+    };
 
 /**
  * copy assets file to distribution folder
  */
 
 gulp.task('copy-assets:dist', ['clean:dist'], function () {
-    return gulp.src(config.app + '/assets/**')
+    var assets = gulp.src(config.app + '/assets/**')
         .pipe(gulp.dest(config.dist + '/assets'));
+
+    var configFiles = gulp.src([
+            config.app + '/.editorconfig',
+            config.app + '/.htaccess',
+            config.app + '/apple-touch-icon.png',
+            config.app + '/browserconfig.xml',
+            config.app + '/crossdomain.xml',
+            config.app + '/favicon.ico',
+            config.app + '/humans.txt',
+            config.app + '/LICENSE.txt',
+            config.app + '/robots.txt',
+            config.app + '/tile.png',
+            config.app + '/tile-wide.png'
+        ])
+        .pipe(gulp.dest(config.dist + '/'));
+
+    return merge(assets, configFiles);
 });
 
 /**
@@ -48,6 +69,10 @@ gulp.task('uglify-js:dist', ['copy-assets:dist'], function () {
         .pipe(rename({suffix: '.min'}))
         .pipe(gulp.dest(config.dist + '/assets/js/'));
 });
+
+/**
+ * copy compiled jade files to .tmp / temporary folder
+ */
 
 gulp.task('copy-base-files', ['clean'], function () {
     return gulp.src(config.app + '/base/*.jade')
@@ -75,6 +100,10 @@ gulp.task('copy-base-files:dist', ['clean:dist'], function () {
         .pipe(gulp.dest(config.dist));
 });
 
+/**
+ * clean .tmp / temporary folder files
+ */
+
 gulp.task('clean', function () {
     return gulp.src('.tmp', {read: false})
         .pipe(clean());
@@ -89,18 +118,25 @@ gulp.task('clean:dist', function () {
         .pipe(clean());
 });
 
+/**
+ * build a web server to handle development environment folders
+ */
+
 gulp.task('connect', ['copy-base-files'], function () {
+    gutil.log(gutil.colors.bgGreen('Starting web server...'));
     return connect.server({
-        root: 'app',
+        root: config.app,
         port: 9010,
-        livereload: true,
-        middleware: function (connect, opt) {
+        livereload: {
+            port: LIVERELOAD_PORT
+        },
+        middleware: function (connect) {
             return [
                 mountFolder(connect, '.tmp'),
                 mountFolder(connect, config.app)
             ];
         }
-    })
+    });
 });
 
 /**
@@ -108,27 +144,44 @@ gulp.task('connect', ['copy-base-files'], function () {
  */
 
 gulp.task('connect:dist', ['build'], function () {
+    gutil.log(gutil.colors.bgGreen('Starting distribution web server...'));
     return connect.server({
-        root: 'dist',
+        root: config.dist,
         port: 9050,
         livereload: true
     });
 });
 
+
+/**
+ * Reload the connected web server if there are changes
+ */
+
+gulp.task('reload', ['copy-base-files'], function () {
+    gulp.src([
+            './' + config.app + '/base/*.jade',
+            './' + config.app + '/base/**/*.jade',
+            './' + config.app + '/assets/css/*.css',
+            './' + config.app + '/assets/js/*.js'
+        ])
+        .pipe(connect.reload());
+});
+
+/**
+ * development environment watcher, used to watch all of the changes on development folders when running
+ *
+ * - gulp server
+ */
+
 gulp.task('watch', ['connect'], function () {
     gulp.watch([
-            'app/base/*.jade',
-            'app/assets/css/*.css',
-            'app/assets/js/*.js'
-        ], ['copy-base-files'])
+            config.app + '/base/*.jade',
+            config.app + '/base/**/*.jade',
+            config.app + '/assets/css/*.css',
+            config.app + '/assets/js/*.js'
+        ], ['copy-base-files', 'reload'])
         .on('change', function (event) {
-            console.log(event.path + ' has changed, reloading...');
-            gulp.src([
-                    './app/base/*.jade',
-                    './app/assets/css/*.css',
-                    './app/assets/js/*.js'
-                ])
-                .pipe(connect.reload());
+            gutil.log(gutil.colors.bgYellow(event.path + ' has changed, reloading...'));
         });
 });
 
@@ -140,11 +193,11 @@ gulp.task('watch', ['connect'], function () {
 
 gulp.task('watch:dist', ['connect:dist'], function () {
     return gulp.watch([
-            'dist/**'
+            config.dist + '/**'
         ])
         .on('change', function (event) {
-            console.log(event.path + ' has changed, reloading...');
-            gulp.src(['./dist/**'])
+            gutil.log(gutil.colors.bgYellow(event.path + ' has changed, reloading...'));
+            gulp.src(['./' + config.dist + '/**'])
                 .pipe(connect.reload());
         });
 });
@@ -154,6 +207,10 @@ gulp.task('watch:dist', ['connect:dist'], function () {
  */
 
 gulp.task('build', ['copy-assets:dist', 'copy-base-files:dist', 'minify-css:dist', 'uglify-js:dist']);
+
+/**
+ * creating web server for development environment
+ */
 
 gulp.task('server', ['clean', 'connect', 'watch']);
 
