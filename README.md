@@ -1,4 +1,4 @@
-## HTML starter template using HTML 5 boilerplate and gulp
+## HTML starter template using HTML 5 boilerplate, jade-lang, and gulp
 
 This starter template was intended to help me creating a static html template. it was build using HTML 5 boilerplate as the starter template, gulpjs as the task runner, and jade-lang as the html template engine language
 
