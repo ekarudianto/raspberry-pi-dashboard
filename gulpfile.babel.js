@@ -4,7 +4,6 @@
 
 /* eslint-disable no-console */
 
-import clean from 'gulp-clean';
 import connect from 'gulp-connect';
 import cssmin from 'gulp-cssmin';
 import gulp from 'gulp';
@@ -13,6 +12,7 @@ import merge from 'merge-stream';
 import pug from 'gulp-pug';
 import rename from 'gulp-rename';
 import uglify from 'gulp-uglify';
+import clean from './gulp/clean';
 
 import CONFIG from './gulp.config.json';
 
@@ -108,19 +108,13 @@ gulp.task('copy-base-files:dist', [
  * clean .tmp / temporary folder files
  */
 
-gulp.task('clean', () => {
-  return gulp.src('.tmp', {read: false,})
-          .pipe(clean());
-});
+gulp.task('clean', clean.tmp);
 
 /**
  * clean distribution folder files
  */
 
-gulp.task('clean:dist', () => {
-  return gulp.src([CONFIG.DIST + '/*', CONFIG.DIST + '/.*',], {read: false,})
-          .pipe(clean());
-});
+gulp.task('clean:dist', clean.dist);
 
 /**
  * build a web server to handle development environment folders
