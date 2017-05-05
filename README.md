@@ -1,4 +1,4 @@
-## HTML 5 starter template.
+## Quick build HTML
 
 This starter template was intended to help me creating a static html template. It is build using HTML 5 boilerplate as the starter template, gulpjs as the task runner, and pug as the html template engine language.
 
