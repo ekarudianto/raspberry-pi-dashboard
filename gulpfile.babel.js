@@ -12,38 +12,36 @@ import merge from 'merge-stream';
 import rename from 'gulp-rename';
 import uglify from 'gulp-uglify';
 
-var  LIVERELOAD_PORT = 35730,
-    mountFolder = function (connect, dir) {
-        return connect.static(require('path').resolve(dir));
-    },
+const LIVERELOAD_PORT = 35730;
+const CONFIG = {
+    APP: 'app',
+    DIST: 'dist',
+};
 
-    config = {
-        app: 'app',
-        dist: 'dist'
-    };
+const mountFolder = (connect, dir) => connect.static(require('path').resolve(dir));
 
 /**
  * copy assets file to distribution folder
  */
 
 gulp.task('copy-assets:dist', ['clean:dist'], function () {
-    var assets = gulp.src(config.app + '/assets/**')
-        .pipe(gulp.dest(config.dist + '/assets'));
+    var assets = gulp.src(CONFIG.APP + '/assets/**')
+        .pipe(gulp.dest(CONFIG.DIST + '/assets'));
 
     var configFiles = gulp.src([
-            config.app + '/.editorconfig',
-            config.app + '/.htaccess',
-            config.app + '/apple-touch-icon.png',
-            config.app + '/browserconfig.xml',
-            config.app + '/crossdomain.xml',
-            config.app + '/favicon.ico',
-            config.app + '/humans.txt',
-            config.app + '/LICENSE.txt',
-            config.app + '/robots.txt',
-            config.app + '/tile.png',
-            config.app + '/tile-wide.png'
+            CONFIG.APP + '/.editorconfig',
+            CONFIG.APP + '/.htaccess',
+            CONFIG.APP + '/apple-touch-icon.png',
+            CONFIG.APP + '/browserconfig.xml',
+            CONFIG.APP + '/crossdomain.xml',
+            CONFIG.APP + '/favicon.ico',
+            CONFIG.APP + '/humans.txt',
+            CONFIG.APP + '/LICENSE.txt',
+            CONFIG.APP + '/robots.txt',
+            CONFIG.APP + '/tile.png',
+            CONFIG.APP + '/tile-wide.png'
         ])
-        .pipe(gulp.dest(config.dist + '/'));
+        .pipe(gulp.dest(CONFIG.DIST + '/'));
 
     return merge(assets, configFiles);
 });
@@ -53,10 +51,10 @@ gulp.task('copy-assets:dist', ['clean:dist'], function () {
  */
 
 gulp.task('minify-css:dist', ['copy-assets:dist'], function () {
-    return gulp.src(config.app + '/assets/css/style.css')
+    return gulp.src(CONFIG.APP + '/assets/css/style.css')
         .pipe(cssmin())
         .pipe(rename({suffix: '.min'}))
-        .pipe(gulp.dest(config.dist + '/assets/css/'));
+        .pipe(gulp.dest(CONFIG.DIST + '/assets/css/'));
 });
 
 /**
@@ -64,10 +62,10 @@ gulp.task('minify-css:dist', ['copy-assets:dist'], function () {
  */
 
 gulp.task('uglify-js:dist', ['copy-assets:dist'], function () {
-    return gulp.src(config.app + '/assets/js/main.js')
+    return gulp.src(CONFIG.APP + '/assets/js/main.js')
         .pipe(uglify())
         .pipe(rename({suffix: '.min'}))
-        .pipe(gulp.dest(config.dist + '/assets/js/'));
+        .pipe(gulp.dest(CONFIG.DIST + '/assets/js/'));
 });
 
 /**
@@ -75,7 +73,7 @@ gulp.task('uglify-js:dist', ['copy-assets:dist'], function () {
  */
 
 gulp.task('copy-base-files', ['clean'], function () {
-    return gulp.src(config.app + '/base/*.jade')
+    return gulp.src(CONFIG.APP + '/base/*.jade')
         .pipe(jade({
             locals: {},
             pretty: false,
@@ -91,13 +89,13 @@ gulp.task('copy-base-files', ['clean'], function () {
 gulp.task('copy-base-files:dist', ['clean:dist'], function () {
     var YOUR_LOCALS = {};
 
-    return gulp.src(config.app + '/base/*.jade')
+    return gulp.src(CONFIG.APP + '/base/*.jade')
         .pipe(jade({
             locals: YOUR_LOCALS,
             pretty: true,
             compileDebug: true
         }))
-        .pipe(gulp.dest(config.dist));
+        .pipe(gulp.dest(CONFIG.DIST));
 });
 
 /**
@@ -114,7 +112,7 @@ gulp.task('clean', function () {
  */
 
 gulp.task('clean:dist', function () {
-    return gulp.src([config.dist + '/*', config.dist + '/.*'], {read: false})
+    return gulp.src([CONFIG.DIST + '/*', CONFIG.DIST + '/.*'], {read: false})
         .pipe(clean());
 });
 
@@ -125,7 +123,7 @@ gulp.task('clean:dist', function () {
 gulp.task('connect', ['copy-base-files'], function () {
     gutil.log(gutil.colors.bgGreen('Starting web server...'));
     return connect.server({
-        root: config.app,
+        root: CONFIG.APP,
         port: 9010,
         livereload: {
             port: LIVERELOAD_PORT
@@ -133,7 +131,7 @@ gulp.task('connect', ['copy-base-files'], function () {
         middleware: function (connect) {
             return [
                 mountFolder(connect, '.tmp'),
-                mountFolder(connect, config.app)
+                mountFolder(connect, CONFIG.APP)
             ];
         }
     });
@@ -146,7 +144,7 @@ gulp.task('connect', ['copy-base-files'], function () {
 gulp.task('connect:dist', ['build'], function () {
     gutil.log(gutil.colors.bgGreen('Starting distribution web server...'));
     return connect.server({
-        root: config.dist,
+        root: CONFIG.DIST,
         port: 9050,
         livereload: true
     });
@@ -159,10 +157,10 @@ gulp.task('connect:dist', ['build'], function () {
 
 gulp.task('reload', ['copy-base-files'], function () {
     gulp.src([
-            './' + config.app + '/base/*.jade',
-            './' + config.app + '/base/**/*.jade',
-            './' + config.app + '/assets/css/*.css',
-            './' + config.app + '/assets/js/*.js'
+            './' + CONFIG.APP + '/base/*.jade',
+            './' + CONFIG.APP + '/base/**/*.jade',
+            './' + CONFIG.APP + '/assets/css/*.css',
+            './' + CONFIG.APP + '/assets/js/*.js'
         ])
         .pipe(connect.reload());
 });
@@ -175,10 +173,10 @@ gulp.task('reload', ['copy-base-files'], function () {
 
 gulp.task('watch', ['connect'], function () {
     gulp.watch([
-            config.app + '/base/*.jade',
-            config.app + '/base/**/*.jade',
-            config.app + '/assets/css/*.css',
-            config.app + '/assets/js/*.js'
+            CONFIG.APP + '/base/*.jade',
+            CONFIG.APP + '/base/**/*.jade',
+            CONFIG.APP + '/assets/css/*.css',
+            CONFIG.APP + '/assets/js/*.js'
         ], ['copy-base-files', 'reload'])
         .on('change', function (event) {
             gutil.log(gutil.colors.bgYellow(event.path + ' has changed, reloading...'));
@@ -193,11 +191,11 @@ gulp.task('watch', ['connect'], function () {
 
 gulp.task('watch:dist', ['connect:dist'], function () {
     return gulp.watch([
-            config.dist + '/**'
+            CONFIG.DIST + '/**'
         ])
         .on('change', function (event) {
             gutil.log(gutil.colors.bgYellow(event.path + ' has changed, reloading...'));
-            gulp.src(['./' + config.dist + '/**'])
+            gulp.src(['./' + CONFIG.DIST + '/**'])
                 .pipe(connect.reload());
         });
 });
