@@ -2,20 +2,16 @@
  * Created by Eka Rudianto on 04/04/16.
  */
 
-/* eslint-disable no-console */
-
 import connect from 'gulp-connect';
-import cssmin from 'gulp-cssmin';
 import gulp from 'gulp';
 import gutil from 'gulp-util';
 import merge from 'merge-stream';
 import pug from 'gulp-pug';
-import rename from 'gulp-rename';
-import uglify from 'gulp-uglify';
 
 import clean from './gulp/clean';
 import watch from './gulp/watch';
 import reload from './gulp/reload';
+import minify from './gulp/minify';
 
 import CONFIG from './gulp.config.json';
 
@@ -55,12 +51,7 @@ gulp.task('copy-assets:dist', [
 
 gulp.task('minify-css:dist', [
   'copy-assets:dist',
-], () => {
-  return gulp.src(CONFIG.APP + '/assets/css/style.css')
-          .pipe(cssmin())
-          .pipe(rename({suffix: '.min',}))
-          .pipe(gulp.dest(CONFIG.DIST + '/assets/css/'));
-});
+], minify.css);
 
 /**
  * uglify main.js and copy the minified file to distribution folder
@@ -68,12 +59,7 @@ gulp.task('minify-css:dist', [
 
 gulp.task('uglify-js:dist', [
   'copy-assets:dist',
-], () => {
-  return gulp.src(CONFIG.APP + '/assets/js/main.js')
-          .pipe(uglify())
-          .pipe(rename({suffix: '.min',}))
-          .pipe(gulp.dest(CONFIG.DIST + '/assets/js/'));
-});
+], minify.js);
 
 /**
  * copy compiled pug files to .tmp / temporary folder
