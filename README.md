@@ -27,12 +27,12 @@ This starter template was intended to help me creating a static html template. I
 
 ### How to install
 
- - Install nodejs, documentation on how to install could be found [here](https://nodejs.org/)
- - Do a ```git clone``` from https://github.com/ekarudianto/html-starter-template.git
- - Inside project directory, run ```npm install```
- - Inside project directory, run ```bower install```
- - run ```gulp``` or ```gulp server```
- - go to ```localhost:9010``` for development mode
+ - Install nodejs, documentation on how to install could be found [here](https://nodejs.org/).
+ - Do a ```git clone``` from https://github.com/ekarudianto/html-starter-template.git.
+ - Inside project directory, run ```npm install```.
+ - Inside project directory, run ```bower install```.
+ - run ```gulp``` or ```gulp server```.
+ - go to ```localhost:9010``` for development mode.
 
 ### Run in distribution package
 
@@ -40,4 +40,4 @@ Run ```gulp server:dist``` in project directory and go to ```localhost:9050``` f
 
 ### Build the web app
 
-Run ```gulp build``` in project directory and the built will be accessible on ```dist``` folder
+Run ```gulp build``` in project directory and the built will be accessible on ```dist``` folder.
