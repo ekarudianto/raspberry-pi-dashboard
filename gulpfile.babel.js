@@ -24,7 +24,7 @@ gulp.task('copy-assets:dist', [
   'clean:dist',
 ], () => {
   const assets = gulp.src(CONFIG.APP + '/assets/**')
-        .pipe(gulp.dest(CONFIG.DIST + '/assets'));
+          .pipe(gulp.dest(CONFIG.DIST + '/assets'));
 
   const configFiles = gulp.src([
     CONFIG.APP + '/.editorconfig',
@@ -52,9 +52,9 @@ gulp.task('minify-css:dist', [
   'copy-assets:dist',
 ], () => {
   return gulp.src(CONFIG.APP + '/assets/css/style.css')
-        .pipe(cssmin())
-        .pipe(rename({suffix: '.min',}))
-        .pipe(gulp.dest(CONFIG.DIST + '/assets/css/'));
+          .pipe(cssmin())
+          .pipe(rename({suffix: '.min',}))
+          .pipe(gulp.dest(CONFIG.DIST + '/assets/css/'));
 });
 
 /**
@@ -65,9 +65,9 @@ gulp.task('uglify-js:dist', [
   'copy-assets:dist',
 ], () => {
   return gulp.src(CONFIG.APP + '/assets/js/main.js')
-        .pipe(uglify())
-        .pipe(rename({suffix: '.min',}))
-        .pipe(gulp.dest(CONFIG.DIST + '/assets/js/'));
+          .pipe(uglify())
+          .pipe(rename({suffix: '.min',}))
+          .pipe(gulp.dest(CONFIG.DIST + '/assets/js/'));
 });
 
 /**
@@ -78,12 +78,12 @@ gulp.task('copy-base-files', [
   'clean',
 ], () => {
   return gulp.src(CONFIG.APP + '/base/*.jade')
-        .pipe(jade({
-          locals: {},
-          pretty: false,
-          compileDebug: true,
-        }))
-        .pipe(gulp.dest('.tmp'));
+          .pipe(jade({
+            locals: {},
+            pretty: false,
+            compileDebug: true,
+          }))
+          .pipe(gulp.dest('.tmp'));
 });
 
 /**
@@ -94,12 +94,12 @@ gulp.task('copy-base-files:dist', [
   'clean:dist',
 ], () => {
   return gulp.src(CONFIG.APP + '/base/*.jade')
-        .pipe(jade({
-          locals: {},
-          pretty: true,
-          compileDebug: true,
-        }))
-        .pipe(gulp.dest(CONFIG.DIST));
+          .pipe(jade({
+            locals: {},
+            pretty: true,
+            compileDebug: true,
+          }))
+          .pipe(gulp.dest(CONFIG.DIST));
 });
 
 /**
@@ -108,7 +108,7 @@ gulp.task('copy-base-files:dist', [
 
 gulp.task('clean', () => {
   return gulp.src('.tmp', {read: false,})
-        .pipe(clean());
+          .pipe(clean());
 });
 
 /**
@@ -117,7 +117,7 @@ gulp.task('clean', () => {
 
 gulp.task('clean:dist', () => {
   return gulp.src([CONFIG.DIST + '/*', CONFIG.DIST + '/.*',], {read: false,})
-        .pipe(clean());
+          .pipe(clean());
 });
 
 /**
@@ -223,7 +223,8 @@ gulp.task('build', ['copy-assets:dist', 'copy-base-files:dist', 'minify-css:dist
  * creating web server for development environment
  */
 
-gulp.task('server', ['clean', 'connect', 'watch',]);
+gulp.task('default', ['clean', 'connect', 'watch',]);
+gulp.task('server', ['default',]);
 
 /**
  * creating distribution web server
