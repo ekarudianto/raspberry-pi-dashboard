@@ -2,7 +2,6 @@
  * Created by Eka Rudianto on 04/04/16.
  */
 
-import connect from 'gulp-connect';
 import gulp from 'gulp';
 import gutil from 'gulp-util';
 import merge from 'merge-stream';
@@ -12,6 +11,7 @@ import clean from './gulp/clean';
 import watch from './gulp/watch';
 import reload from './gulp/reload';
 import minify from './gulp/minify';
+import connect from './gulp/connect';
 
 import CONFIG from './gulp.config.json';
 
@@ -111,22 +111,7 @@ gulp.task('clean:dist', clean.dist);
 
 gulp.task('connect', [
   'copy-base-files',
-], () => {
-  gutil.log(gutil.colors.bgGreen('Starting web server...'));
-  return connect.server({
-    root: CONFIG.APP,
-    port: CONFIG.APP_PORT,
-    livereload: {
-      port: CONFIG.LIVERELOAD_PORT,
-    },
-    middleware: (connect) => {
-      return [
-        mountFolder(connect, '.tmp'),
-        mountFolder(connect, CONFIG.APP),
-      ];
-    },
-  });
-});
+], connect.app);
 
 /**
  * build a web server to handle distribution folder
@@ -134,14 +119,7 @@ gulp.task('connect', [
 
 gulp.task('connect:dist', [
   'build',
-], () => {
-  gutil.log(gutil.colors.bgGreen('Starting distribution web server...'));
-  return connect.server({
-    root: CONFIG.DIST,
-    port: CONFIG.DIST_PORT,
-    livereload: true,
-  });
-});
+], connect.dist);
 
 
 /**
