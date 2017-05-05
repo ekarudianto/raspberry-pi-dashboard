@@ -21,6 +21,8 @@
   "homepage": "https://github.com/ekarudianto/html-starter-template#readme",
   "dependencies": {},
   "devDependencies": {
+    "babel-core": "^6.24.1",
+    "babel-preset-es2015": "^6.24.1",
     "gulp": "^3.9.1",
     "gulp-clean": "^0.3.2",
     "gulp-connect": "^3.2.2",
