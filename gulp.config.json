@@ -1,0 +1,7 @@
+{
+  "APP_PORT": 9010,
+  "DIST_PORT": 9050,
+  "APP": "app",
+  "DIST": "dist",
+  "LIVERELOAD_PORT": 35730
+}
