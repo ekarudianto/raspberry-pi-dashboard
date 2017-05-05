@@ -4,21 +4,14 @@ import GulpConfig from '../gulp.config.json';
 import LOGGER from 'gulp-util';
 
 const app = () => {
-  return gulp.watch([
-    GulpConfig.APP + '/base/*.pug',
-    GulpConfig.APP + '/base/**/*.pug',
-    GulpConfig.APP + '/assets/css/*.css',
-    GulpConfig.APP + '/assets/js/*.js',
-  ], ['copy-base-files', 'reload',])
+  return gulp.watch(GulpConfig.WATCH_LIST.APP, ['copy-base-files', 'reload',])
   .on('change', (e) => {
     LOGGER.log(LOGGER.colors.bgYellow(e.path + ' has changed, reloading...'));
   });
 };
 
 const dist = () => {
-  return gulp.watch([
-    GulpConfig.DIST + '/**',
-  ])
+  return gulp.watch(GulpConfig.WATCH_LIST.DIST)
   .on('change', (e) => {
     LOGGER.log(LOGGER.colors.bgYellow(e.path + ' has changed, reloading...'));
     gulp.src(['./' + GulpConfig.DIST + '/**',]).pipe(connect.reload());

@@ -3,5 +3,14 @@
   "DIST_PORT": 9050,
   "LIVERELOAD_PORT": 35730,
   "APP": "app",
-  "DIST": "dist"
+  "DIST": "dist",
+  "WATCH_LIST": {
+    "APP": [
+      "app/base/*.pug",
+      "app/base/**/*.pug'",
+      "app/assets/css/*.css'",
+      "app/assets/js/*.js'"
+    ],
+    "DIST": ["dist/**"]
+  }
 }
