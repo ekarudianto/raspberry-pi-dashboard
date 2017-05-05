@@ -12,6 +12,7 @@ import watch from './gulp/watch';
 import reload from './gulp/reload';
 import minify from './gulp/minify';
 import connect from './gulp/connect';
+import copyBaseFiles from './gulp/copy-base-files';
 
 import CONFIG from './gulp.config.json';
 
@@ -67,15 +68,7 @@ gulp.task('uglify-js:dist', [
 
 gulp.task('copy-base-files', [
   'clean',
-], () => {
-  return gulp.src(CONFIG.APP + '/base/* ')
-          .pipe(pug({
-            locals: {},
-            pretty: false,
-            compileDebug: true,
-          }))
-          .pipe(gulp.dest('.tmp'));
-});
+], copyBaseFiles.app);
 
 /**
  * copy compiled pug files to distribution folder
@@ -83,15 +76,7 @@ gulp.task('copy-base-files', [
 
 gulp.task('copy-base-files:dist', [
   'clean:dist',
-], () => {
-  return gulp.src(CONFIG.APP + '/base/*.pug')
-          .pipe(pug({
-            locals: {},
-            pretty: true,
-            compileDebug: true,
-          }))
-          .pipe(gulp.dest(CONFIG.DIST));
-});
+], copyBaseFiles.dist);
 
 /**
  * clean .tmp / temporary folder files
