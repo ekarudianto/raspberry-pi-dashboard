@@ -12,7 +12,9 @@ import merge from 'merge-stream';
 import pug from 'gulp-pug';
 import rename from 'gulp-rename';
 import uglify from 'gulp-uglify';
+
 import clean from './gulp/clean';
+import watch from './gulp/watch';
 
 import CONFIG from './gulp.config.json';
 
@@ -108,7 +110,7 @@ gulp.task('copy-base-files:dist', [
  * clean .tmp / temporary folder files
  */
 
-gulp.task('clean', clean.tmp);
+gulp.task('clean', clean.app);
 
 /**
  * clean distribution folder files
@@ -179,17 +181,7 @@ gulp.task('reload', [
 
 gulp.task('watch', [
   'connect',
-], () => {
-  gulp.watch([
-    CONFIG.APP + '/base/*.pug',
-    CONFIG.APP + '/base/**/*.pug',
-    CONFIG.APP + '/assets/css/*.css',
-    CONFIG.APP + '/assets/js/*.js',
-  ], ['copy-base-files', 'reload',])
-  .on('change', (event) => {
-    gutil.log(gutil.colors.bgYellow(event.path + ' has changed, reloading...'));
-  });
-});
+], watch.app);
 
 /**
  * distribution folder watcher, used to watch all of the changes on distribution folder when running
@@ -199,15 +191,7 @@ gulp.task('watch', [
 
 gulp.task('watch:dist', [
   'connect:dist',
-], () => {
-  return gulp.watch([
-    CONFIG.DIST + '/**',
-  ])
-  .on('change', (event) => {
-    gutil.log(gutil.colors.bgYellow(event.path + ' has changed, reloading...'));
-    gulp.src(['./' + CONFIG.DIST + '/**',]).pipe(connect.reload());
-  });
-});
+], watch.dist);
 
 /* eslint-disable comma-dangle */
 
