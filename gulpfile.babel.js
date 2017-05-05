@@ -3,20 +3,15 @@
  */
 
 import gulp from 'gulp';
-import gutil from 'gulp-util';
-import merge from 'merge-stream';
-import pug from 'gulp-pug';
 
+// List of tasks
 import clean from './gulp/clean';
-import watch from './gulp/watch';
-import reload from './gulp/reload';
-import minify from './gulp/minify';
 import connect from './gulp/connect';
+import copyAssets from './gulp/copy-assets';
 import copyBaseFiles from './gulp/copy-base-files';
-
-import CONFIG from './gulp.config.json';
-
-const mountFolder = (connect, dir) => connect.static(require('path').resolve(dir));
+import minify from './gulp/minify';
+import reload from './gulp/reload';
+import watch from './gulp/watch';
 
 /**
  * copy assets file to distribution folder
@@ -24,27 +19,7 @@ const mountFolder = (connect, dir) => connect.static(require('path').resolve(dir
 
 gulp.task('copy-assets:dist', [
   'clean:dist',
-], () => {
-  const assets = gulp.src(CONFIG.APP + '/assets/**')
-          .pipe(gulp.dest(CONFIG.DIST + '/assets'));
-
-  const configFiles = gulp.src([
-    CONFIG.APP + '/.editorconfig',
-    CONFIG.APP + '/.htaccess',
-    CONFIG.APP + '/apple-touch-icon.png',
-    CONFIG.APP + '/browserconfig.xml',
-    CONFIG.APP + '/crossdomain.xml',
-    CONFIG.APP + '/favicon.ico',
-    CONFIG.APP + '/humans.txt',
-    CONFIG.APP + '/LICENSE.txt',
-    CONFIG.APP + '/robots.txt',
-    CONFIG.APP + '/tile.png',
-    CONFIG.APP + '/tile-wide.png',
-  ])
-  .pipe(gulp.dest(CONFIG.DIST + '/'));
-
-  return merge(assets, configFiles);
-});
+], copyAssets);
 
 /**
  * minify style.css and copy the minified file to distribution folder
