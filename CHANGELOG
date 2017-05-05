@@ -2,6 +2,18 @@
 ### Added
 ### Changed
 
+## [2.0]
+### Added
+- New version release
+- ES7 support
+- Add config file for gulp tasks
+- Add eslint support
+- Add license (MIT)
+- Add CHANGELOG
+### Changed
+- Refactor gulpfile to support es7
+- Jade into pug
+
 ## [1.0] - 2017-05-05
 ### Added
 - Version release
