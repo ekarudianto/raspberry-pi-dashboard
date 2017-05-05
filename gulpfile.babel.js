@@ -2,8 +2,8 @@
  * Created by Eka Rudianto on 04/04/16.
  */
 
-var gulp = require('gulp'),
-    jade = require('gulp-jade'),
+import gulp from 'gulp';
+var jade = require('gulp-jade'),
     clean = require('gulp-clean'),
     cssmin = require('gulp-cssmin'),
     uglify = require('gulp-uglify'),
