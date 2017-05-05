@@ -215,21 +215,25 @@ gulp.task('watch:dist', [
   });
 });
 
+/* eslint-disable comma-dangle */
+
 /**
  * build task to build all of the works from apps folder
  */
 
-gulp.task('build', ['copy-assets:dist', 'copy-base-files:dist', 'minify-css:dist', 'uglify-js:dist',]);
+gulp.task('build', ['copy-assets:dist', 'copy-base-files:dist', 'minify-css:dist', 'uglify-js:dist']);
 
 /**
  * creating web server for development environment
  */
 
-gulp.task('default', ['clean', 'connect', 'watch',]);
-gulp.task('server', ['default',]);
+gulp.task('default', ['clean', 'connect', 'watch']);
+gulp.task('server', ['default']);
 
 /**
  * creating distribution web server
  */
 
-gulp.task('server:dist', ['build', 'connect:dist', 'watch:dist',]);
+gulp.task('server:dist', ['build', 'connect:dist', 'watch:dist']);
+
+/* eslint-enable comma-dangle */
