@@ -4,6 +4,12 @@
   "LIVERELOAD_PORT": 35730,
   "APP": "app",
   "DIST": "dist",
+  "RELOAD_LIST": [
+    "./app/base/*.pug",
+    "./app/base/**/*.pug",
+    "./app/assets/css/*.css",
+    "./app/assets/js/*.js"
+  ],
   "WATCH_LIST": {
     "APP": [
       "app/base/*.pug",

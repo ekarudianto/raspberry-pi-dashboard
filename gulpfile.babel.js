@@ -15,6 +15,7 @@ import uglify from 'gulp-uglify';
 
 import clean from './gulp/clean';
 import watch from './gulp/watch';
+import reload from './gulp/reload';
 
 import CONFIG from './gulp.config.json';
 
@@ -163,15 +164,7 @@ gulp.task('connect:dist', [
 
 gulp.task('reload', [
   'copy-base-files',
-], () => {
-  gulp.src([
-    './' + CONFIG.APP + '/base/*.pug',
-    './' + CONFIG.APP + '/base/**/*.pug',
-    './' + CONFIG.APP + '/assets/css/*.css',
-    './' + CONFIG.APP + '/assets/js/*.js',
-  ])
-  .pipe(connect.reload());
-});
+], reload);
 
 /**
  * development environment watcher, used to watch all of the changes on development folders when running
