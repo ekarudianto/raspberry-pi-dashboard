@@ -4,6 +4,7 @@
 .idea
 .idea/workspace.xml
 .git
+.tmp
 app/assets/vendors
 node_modules
 bower_components

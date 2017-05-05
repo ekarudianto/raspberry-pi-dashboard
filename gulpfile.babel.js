@@ -2,13 +2,15 @@
  * Created by Eka Rudianto on 04/04/16.
  */
 
+/* eslint-disable no-console */
+
 import clean from 'gulp-clean';
 import connect from 'gulp-connect';
 import cssmin from 'gulp-cssmin';
 import gulp from 'gulp';
 import gutil from 'gulp-util';
-import jade from 'gulp-jade';
 import merge from 'merge-stream';
+import pug from 'gulp-pug';
 import rename from 'gulp-rename';
 import uglify from 'gulp-uglify';
 
@@ -71,14 +73,14 @@ gulp.task('uglify-js:dist', [
 });
 
 /**
- * copy compiled jade files to .tmp / temporary folder
+ * copy compiled pug files to .tmp / temporary folder
  */
 
 gulp.task('copy-base-files', [
   'clean',
 ], () => {
-  return gulp.src(CONFIG.APP + '/base/*.jade')
-          .pipe(jade({
+  return gulp.src(CONFIG.APP + '/base/* ')
+          .pipe(pug({
             locals: {},
             pretty: false,
             compileDebug: true,
@@ -87,14 +89,14 @@ gulp.task('copy-base-files', [
 });
 
 /**
- * copy compiled jade files to distribution folder
+ * copy compiled pug files to distribution folder
  */
 
 gulp.task('copy-base-files:dist', [
   'clean:dist',
 ], () => {
-  return gulp.src(CONFIG.APP + '/base/*.jade')
-          .pipe(jade({
+  return gulp.src(CONFIG.APP + '/base/*.pug')
+          .pipe(pug({
             locals: {},
             pretty: true,
             compileDebug: true,
@@ -167,8 +169,8 @@ gulp.task('reload', [
   'copy-base-files',
 ], () => {
   gulp.src([
-    './' + CONFIG.APP + '/base/*.jade',
-    './' + CONFIG.APP + '/base/**/*.jade',
+    './' + CONFIG.APP + '/base/*.pug',
+    './' + CONFIG.APP + '/base/**/*.pug',
     './' + CONFIG.APP + '/assets/css/*.css',
     './' + CONFIG.APP + '/assets/js/*.js',
   ])
@@ -185,8 +187,8 @@ gulp.task('watch', [
   'connect',
 ], () => {
   gulp.watch([
-    CONFIG.APP + '/base/*.jade',
-    CONFIG.APP + '/base/**/*.jade',
+    CONFIG.APP + '/base/*.pug',
+    CONFIG.APP + '/base/**/*.pug',
     CONFIG.APP + '/assets/css/*.css',
     CONFIG.APP + '/assets/js/*.js',
   ], ['copy-base-files', 'reload',])
