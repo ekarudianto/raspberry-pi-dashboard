@@ -2,17 +2,17 @@
  * Created by Eka Rudianto on 04/04/16.
  */
 
+import clean from 'gulp-clean';
+import connect from 'gulp-connect';
+import cssmin from 'gulp-cssmin';
 import gulp from 'gulp';
-var jade = require('gulp-jade'),
-    clean = require('gulp-clean'),
-    cssmin = require('gulp-cssmin'),
-    uglify = require('gulp-uglify'),
-    rename = require('gulp-rename'),
-    connect = require('gulp-connect'),
-    merge = require('merge-stream'),
-    gutil = require('gulp-util'),
+import gutil from 'gulp-util';
+import jade from 'gulp-jade';
+import merge from 'merge-stream';
+import rename from 'gulp-rename';
+import uglify from 'gulp-uglify';
 
-    LIVERELOAD_PORT = 35730,
+var  LIVERELOAD_PORT = 35730,
     mountFolder = function (connect, dir) {
         return connect.static(require('path').resolve(dir));
     },
