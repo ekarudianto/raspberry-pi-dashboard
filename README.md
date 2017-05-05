@@ -1,6 +1,6 @@
-## HTML starter template using HTML 5 boilerplate, jade-lang, and gulp
+## HTML 5 starter template.
 
-This starter template was intended to help me creating a static html template. it was build using HTML 5 boilerplate as the starter template, gulpjs as the task runner, and jade-lang as the html template engine language
+This starter template was intended to help me creating a static html template. It is build using HTML 5 boilerplate as the starter template, gulpjs as the task runner, and pug as the html template engine language.
 
 ### Structure folder
 
@@ -19,9 +19,9 @@ This starter template was intended to help me creating a static html template. i
 |       +-- vendors
 |   +-- base
 |       +-- includes
-|           +-- head.jade
-|           +-- footer.jade
-|       +-- index.jade
+|           +-- head.pug
+|           +-- footer.pug
+|       +-- index.pug
 +-- dist
 ```
 
@@ -31,7 +31,7 @@ This starter template was intended to help me creating a static html template. i
  - Do a ```git clone``` from https://github.com/ekarudianto/html-starter-template.git
  - Inside project directory, run ```npm install```
  - Inside project directory, run ```bower install```
- - run ```gulp server```
+ - run ```gulp``` or ```gulp server```
  - go to ```localhost:9010``` for development mode
 
 ### Run in distribution package
