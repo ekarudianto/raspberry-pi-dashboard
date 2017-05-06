@@ -28,7 +28,7 @@ This starter template was intended to help me creating a static html template. I
 ### How to install
 
  - Install nodejs, documentation on how to install could be found [here](https://nodejs.org/).
- - Do a ```git clone``` from git@github.com:ekarudianto/quick-build-html.git
+ - Do a ```git clone``` from https://github.com/ekarudianto/quick-build-html.git
  - Inside project directory, run ```npm install```.
  - Inside project directory, run ```bower install```.
  - run ```gulp``` or ```gulp server```.
