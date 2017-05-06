@@ -15,7 +15,7 @@ const dist = () => {
     .on('change', (e) => {
       LOGGER.log(LOGGER.colors.bgYellow(e.path + ' has changed, reloading...'));
 
-      gulp.src(['./' + GulpConfig.DIST + '/**',]).pipe(connect.reload());
+      gulp.src(['./' + GulpConfig.PATH.DIST + '/**',]).pipe(connect.reload());
     });
 };
 

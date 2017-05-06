@@ -1,0 +1,62 @@
+{
+  "APP_PORT": 9010,
+  "DIST_PORT": 9050,
+  "LIVERELOAD_PORT": 35730,
+  "PATH": {
+    "APP": "app",
+    "DIST": "dist",
+    "CLEAN": {
+      "DIST": [
+        "dist/*",
+        "dist/.*"
+      ]
+    },
+    "COPY_ASSETS": {
+      "APP": "app/assets/**",
+      "DIST": "dist/assets"
+    },
+    "COPY_BASE_FILES": {
+      "APP": "app/base/*",
+      "DIST": "app/base/*.pug"
+    },
+    "MINIFY": {
+      "CSS": {
+        "APP": "app/assets/css/style.css",
+        "DIST": "dist/assets/css"
+      },
+      "JS": {
+        "APP": "app/assets/js/main.js",
+        "DIST": "dist/assets/js"
+      }
+    },
+    "TMP": ".tmp"
+  },
+  "COPY_ASSETS_LIST": [
+    "app/.editorconfig",
+    "app/.htaccess",
+    "app/apple-touch-icon.png",
+    "app/browserconfig.xml",
+    "app/crossdomain.xml",
+    "app/favicon.ico",
+    "app/humans.txt",
+    "app/LICENSE.txt",
+    "app/robots.txt",
+    "app/tile.png",
+    "app/tile-wide.png"
+  ],
+  "RELOAD_LIST": [
+    "./app/base/*.pug",
+    "./app/base/**/*.pug",
+    "./app/assets/css/*.css",
+    "./app/assets/js/*.js"
+  ],
+  "WATCH_LIST": {
+    "APP": [
+      "app/base/*.pug",
+      "app/base/**/*.pug'",
+      "app/assets/css/*.css'",
+      "app/assets/js/*.js'"
+    ],
+    "DIST": ["dist/**"]
+  }
+}
