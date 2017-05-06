@@ -31,8 +31,8 @@ This starter template was intended to help me creating a static html template. I
  - Do a ```git clone``` from https://github.com/ekarudianto/quick-build-html.git
  - Inside project directory, run ```npm install```.
  - Inside project directory, run ```bower install```.
- - run ```gulp``` or ```gulp server```.
- - go to ```localhost:9010``` for development mode.
+ - Run ```gulp``` or ```gulp server```.
+ - Go to ```localhost:9010``` for development mode.
 
 ### Run in distribution package
 
