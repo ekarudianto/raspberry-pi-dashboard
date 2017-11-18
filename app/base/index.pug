@@ -14,7 +14,17 @@ html.no-js
 
 
         <!-- Add your site or application content here -->
-        h3.align-center Hello world !
+        .container.app
+            .row.center
+                .col-md-4.col-xs-12
+                    a.hyperlink(href='http://192.168.0.152:8112', target='_blank', title='Deluge BitTorrent client')
+                      img(src='assets/images/deluge-icon.png')
+                .col-md-4.col-xs-12
+                    a.hyperlink(href='http://192.168.0.152:9000', target='_blank', title='Portainer, docker web ui management')
+                      img(src='assets/images/Portainer-logo.png')
+                .col-md-4.col-xs-12
+                    a.hyperlink(href='https://192.168.0.152:10000', target='_blank', title='Webmin, tooling management system')
+                      img(src='assets/images/webmin-logo.png')
 
 
         include ./includes/footer

@@ -6,5 +6,6 @@
 .git
 .tmp
 app/assets/vendors
+dist
 node_modules
 bower_components

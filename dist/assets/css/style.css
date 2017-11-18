@@ -24,6 +24,18 @@ html {
     line-height: 1.4;
 }
 
+.container.app {
+    margin-top: 40px;
+}
+
+a.hyperlink > img {
+    max-width: 200px;
+}
+
+.center {
+    text-align: center;
+}
+
 /*
  * Remove text-shadow in selection highlight:
  * https://twitter.com/miketaylr/status/12228805301
